@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import "./index.scss";
 import ReactStars from "react-rating-stars-component";
@@ -15,7 +15,7 @@ const Card = () => {
   const [food, setFood] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchData= ()=>{
+  const fetchData= useCallback(()=>{
     setIsLoading(true)
     axios.get(`https://asm-dev-api.herokuapp.com/api/v1/food`).then((res) => {
         const response = res.data.data.meals;
@@ -37,15 +37,14 @@ const Card = () => {
           } 
         });
       })
-  }
+  },[])
 
   useEffect(() => {
     fetchData()
-  }, []);
-  // console.log(food);
+  }, [fetchData]);
 
   return (
-    <div>
+    <div className='container'>
       {isLoading ?
       <div className='spinner'>
         <SpringSpinner color="#fa9e0d"/>
@@ -53,8 +52,8 @@ const Card = () => {
       :
       <>
       <div className="cards-list">
-      {food.map((data) => (
-        <div className="card">
+      {food.map((data, key) => (
+        <div className="card" key={key}>
           <img src={data.strMealThumb} alt={data.title} className='thumbnail'/> 
           <div className="first-row">
             <h3>{data.title}</h3>
@@ -80,7 +79,7 @@ const Card = () => {
       ))}
     </div>
     <div className='learn-more'>
-    <button onClick={fetchData}>Learn More</button>
+    <button>Learn More</button>
     </div>
     </>
       }
