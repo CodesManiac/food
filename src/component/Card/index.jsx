@@ -71,7 +71,7 @@ const Card = () => {
           </div>
           <div className="second-row">
             <p>{data.strMeal}</p>
-            <p>{data.description.substring(0,120)} <span className='see-more' onClick={onOpenModal} >see more</span></p>
+            <p>{data.description.substring(0,100)} <span className='see-more' onClick={onOpenModal} >see more</span></p>
           </div>
         
           <SeeMoreModal open={openModal} close={onCloseModal} data={data} />
